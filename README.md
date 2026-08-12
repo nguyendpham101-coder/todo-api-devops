@@ -4,7 +4,7 @@ Todo API DevOps mini project — practice Git branching, REST API, Swagger/OpenA
 
 ## 1. Project
 
-A small REST API for managing todos, built with Node.js and Express. Data is kept in memory (no database needed for this version).
+A small REST API for managing todos, built with Node.js and Express. Data is stored in memory by default, or in PostgreSQL when running with Docker Compose. Redis is used as a cache layer.
 
 A Todo looks like:
 
@@ -46,6 +46,8 @@ Status codes:
 
 ## 4. Run locally
 
+In-memory mode (no database needed):
+
 ```bash
 npm install
 npm start
@@ -62,6 +64,8 @@ Then open:
 ```text
 http://localhost:3000/health
 ```
+
+With PostgreSQL + Redis, use Docker Compose (see section 7).
 
 ## 5. Swagger
 
@@ -81,24 +85,63 @@ npm test
 
 ## 7. Docker
 
+### Quick start with docker compose
+
+```bash
+docker compose up --build
+```
+
+This starts 3 services:
+
+| Service | Image | Port |
+|---|---|---|
+| `api` | todo-api (built from Dockerfile) | 3000 |
+| `postgres` | postgres:16-alpine | 5432 |
+| `redis` | redis:7-alpine | 6379 |
+
+Verify:
+
+```text
+http://localhost:3000/health
+http://localhost:3000/api-docs
+```
+
+The API uses PostgreSQL to store todos and Redis for caching. Stop with:
+
+```bash
+docker compose down
+```
+
+Remove data volumes too:
+
+```bash
+docker compose down -v
+```
+
+### Build and run manually
+
 Build the image:
 
 ```bash
 docker build -t todo-api .
 ```
 
-Run the container:
+Run the container (in-memory mode, no DB):
 
 ```bash
 docker run --name todo-api-container -p 3000:3000 todo-api
 ```
 
-Verify inside Docker:
+### Environment variables
 
-```text
-http://localhost:3000/health
-http://localhost:3000/api-docs
-```
+| Variable | Default | Purpose |
+|---|---|---|
+| `PORT` | `3000` | API port |
+| `DATABASE_URL` | - | PostgreSQL connection string; if set, todos are stored in Postgres |
+| `REDIS_URL` | `redis://localhost:6379` | Redis connection string |
+| `USE_REDIS` | `false` | Enable Redis caching (`true` in docker compose) |
+
+See `.env.example`.
 
 ## 8. Git workflow
 
@@ -134,7 +177,11 @@ todo-api-devops/
 │   ├── routes/
 │   │   └── todo.routes.js
 │   ├── data/
-│   │   └── todos.js
+│   │   ├── store.js
+│   │   ├── todos.js
+│   │   └── pg.js
+│   ├── utils/
+│   │   └── redis.js
 │   ├── app.js
 │   └── server.js
 ├── tests/
@@ -143,6 +190,8 @@ todo-api-devops/
 │   └── openapi.yaml
 ├── Dockerfile
 ├── .dockerignore
+├── docker-compose.yml
+├── .env.example
 ├── package.json
 ├── .gitignore
 ├── README.md
