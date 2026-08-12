@@ -4,7 +4,9 @@
   "description": "Todo API DevOps mini project",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "node --test \"tests/*.test.js\""
   },
   "keywords": [
     "todo",
@@ -13,5 +15,13 @@
     "swagger",
     "docker"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.2.1",
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
 }
