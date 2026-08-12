@@ -1,3 +1,13 @@
+# Nhóm: Blackbox AI
+### Thành viên:
+- Phạm Tài Nguyên
+- Phan Trung KIên
+- Lê Bảo Khang
+- Trần Đăng Khôi
+- Đàng Hải Đăng
+
+---
+
 # todo-api-devops
 
 Todo API DevOps mini project — practice Git branching, REST API, Swagger/OpenAPI, Docker, and the workflow `main → dev → test → dev → main`.
