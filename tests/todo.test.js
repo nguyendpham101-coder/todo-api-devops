@@ -20,7 +20,9 @@ test('GET /health returns 200 ok', async () => {
   const res = await fetch(`${baseUrl}/health`);
   assert.strictEqual(res.status, 200);
   const body = await res.json();
-  assert.deepStrictEqual(body, { status: 'ok' });
+  assert.strictEqual(body.status, 'ok');
+  assert.ok('postgres' in body);
+  assert.ok('redis' in body);
 });
 
 test('GET /api/todos returns list', async () => {
