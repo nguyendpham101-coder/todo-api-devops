@@ -60,10 +60,20 @@ function deleteTodo(id) {
   return true;
 }
 
+function status() {
+  return 'memory';
+}
+
+function init() {
+  return Promise.resolve();
+}
+
 module.exports = {
+  init,
   getAllTodos,
   getTodoById,
   createTodo,
   updateTodo,
   deleteTodo,
+  status,
 };
