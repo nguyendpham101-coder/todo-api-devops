@@ -1,0 +1,17 @@
+{
+  "name": "todo-api-devops",
+  "version": "1.0.0",
+  "description": "Todo API DevOps mini project",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "keywords": [
+    "todo",
+    "api",
+    "express",
+    "swagger",
+    "docker"
+  ],
+  "license": "MIT"
+}
